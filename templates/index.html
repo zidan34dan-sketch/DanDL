@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DanDL - TikTok Downloader</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#0a0a0a;color:#fff;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #1a1a1a}
+.logo{display:flex;align-items:center;gap:12px}
+.logo h1{font-size:22px;font-weight:800;line-height:1}
+.logo span{display:block;font-size:10px;letter-spacing:2px;color:#888;font-weight:600}
+.btn-wa{display:flex;align-items:center;gap:8px;background:#111;border:1px solid #2a2a2a;padding:8px 16px;border-radius:999px;font-size:13px;text-decoration:none;color:#fff}
+.container{padding:24px 20px;max-width:600px;margin:auto}
+.badge{font-size:12px;letter-spacing:3px;color:#aaa;font-weight:600;margin-bottom:12px}
+.title{font-size:32px;font-weight:800;line-height:1.1;margin-bottom:12px}
+.sub{color:#888;font-size:14px;margin-bottom:16px}
+.support{display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:13px;color:#666}
+.support .pill{background:#151515;border:1px solid #222;padding:6px 14px;border-radius:999px;display:flex;align-items:center;gap:6px;color:#fff}
+.card{background:linear-gradient(180deg,#131313,#0f0f0f);border:1px solid #232323;border-radius:28px;padding:20px;margin-top:10px}
+.icon-help{width:56px;height:56px;background:#1e1e1e;border:1px solid #2a2a2a;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px;color:#888}
+.input-wrap{display:flex;gap:10px;margin-bottom:12px}
+.input-wrap input{flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;padding:14px 16px;color:#fff;outline:none}
+.input-wrap button{width:48px;height:48px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:14px;color:#fff;cursor:pointer}
+.btn-download{width:100%;padding:16px;background:#fff;color:#000;border:none;border-radius:16px;font-weight:600;font-size:15px;display:flex;justify-content:center;align-items:center;gap:8px;cursor:pointer}
+#result{margin-top:20px}
+video{width:100%;border-radius:16px;margin-top:10px;background:#000}
+.result-card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:12px;margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">
+<div style="font-size:24px">☰</div>
+<div><h1>DanDL</h1><span>TIKTOK DOWNLOADER</span></div>
+</div>
+<a class="btn-wa" href="#">🟢 DanXit</a>
+</header>
+
+<div class="container">
+<div class="badge">TIKTOK DOWNLOADER</div>
+<h2 class="title">Tempel link TikTok, video siap diunduh.</h2>
+<p class="sub">Tempel link TikTok, unduh videonya tanpa watermark.</p>
+<div class="support">Mendukung: <span class="pill">♪ TikTok</span></div>
+
+<div class="card">
+<div class="icon-help">?</div>
+<div class="input-wrap">
+<input id="url" placeholder="Tempel link TikTok di sini...">
+<button onclick="paste()">⎙</button>
+</div>
+<button class="btn-download" onclick="download()">Unduh Sekarang →</button>
+<div id="result"></div>
+</div>
+</div>
+
+<script>
+async function paste(){
+ try{
+  const text = await navigator.clipboard.readText();
+  document.getElementById('url').value = text;
+ }catch(e){
+  alert('Tempel manual ya');
+ }
+}
+async function download(){
+ let u=document.getElementById('url').value
+ if(!u){alert('Tempel link dulu');return}
+ document.getElementById('result').innerHTML='<p style="color:#888;margin-top:15px">⏳ Sedang memproses...</p>'
+ let form=new FormData()
+ form.append('url', u)
+ let res=await fetch('/download',{method:'POST',body:form})
+ let html=await res.text()
+ document.getElementById('result').innerHTML='<div class="result-card">'+html+'</div>'
+}
+</script>
+</body>
+</html>
